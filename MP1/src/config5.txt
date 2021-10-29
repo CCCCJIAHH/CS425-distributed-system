@@ -1,0 +1,8 @@
+7
+node1 fa21-cs425-g44-01.cs.illinois.edu 8081
+node2 fa21-cs425-g44-02.cs.illinois.edu 8082
+node3 fa21-cs425-g44-03.cs.illinois.edu 8083
+node4 fa21-cs425-g44-04.cs.illinois.edu 8084
+node6 fa21-cs425-g44-06.cs.illinois.edu 8086
+node7 fa21-cs425-g44-07.cs.illinois.edu 8087
+node8 fa21-cs425-g44-08.cs.illinois.edu 8088
