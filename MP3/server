@@ -1,0 +1,2 @@
+#!/bin/sh
+exec java -jar dist/server.jar $1 $2

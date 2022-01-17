@@ -1,0 +1,6 @@
+A fa21-cs425-g44-01.cs.illinois.edu 10001
+B fa21-cs425-g44-02.cs.illinois.edu 10002
+C fa21-cs425-g44-03.cs.illinois.edu 10003
+D fa21-cs425-g44-04.cs.illinois.edu 10004
+E fa21-cs425-g44-05.cs.illinois.edu 10005
+F fa21-cs425-g44-06.cs.illinois.edu 10006
