@@ -4,7 +4,7 @@ from collections import defaultdict
 import json
 import sys
 import alog
-from logging import INFO, ERROR, WARN
+from logging import INFO, ERROR, WARN, DEBUG
 
 class Process:
     def __init__(self, pid, network, subproc):
@@ -19,10 +19,10 @@ class Process:
         self.writer_task = asyncio.create_task(self.writer())
 
     @classmethod
-    async def create(cls, pid, network, command, *args):
+    async def create(cls, pid, network, command, *args, **kwargs):
         subproc = await asyncio.create_subprocess_exec(command, *args, stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE)
 
-        self = cls(pid, network, subproc)
+        self = cls(pid, network, subproc, **kwargs)
         return self
 
     async def reader(self):
@@ -32,7 +32,7 @@ class Process:
         try: 
             while True:
                 line = await self.subproc.stdout.readline()
-                await alog.log(INFO, f"{self.pid}>{line.decode().strip()}")
+                await alog.log(DEBUG, f"{self.pid}>{line.decode().strip()}")
                 if not line:
                     break
                 if line.startswith(b"SEND"):
@@ -57,10 +57,16 @@ class Process:
     async def writer(self):
         while True:
             (src, msg) = await self.message_queue.get()
-            line = f"RECEIVE {src} ".encode() + msg + b"\n"
-            await alog.log(INFO, f"{self.pid}<{line.decode().strip()}")
+            if src is not None:
+                line = f"RECEIVE {src} ".encode() + msg + b"\n"
+            else:
+                line = f"LOG {msg}\n".encode()
+            await alog.log(DEBUG, f"{self.pid}<{line.decode().strip()}")
             self.subproc.stdin.write(line)
             await self.subproc.stdin.drain()
+
+    def log_entry(self, entry):
+        self.message_queue.put_nowait((None,entry))
 
     def send_message(self, src, msg):
         self.message_queue.put_nowait((src, msg))
@@ -102,7 +108,7 @@ class Network:
             return
 
         if self.partition and self.partition[src] != self.partition[dst]:
-            alog.log_no_wait(INFO, f"dropping message from {src} to {dst} due to partition")
+            alog.log_no_wait(DEBUG, f"dropping message from {src} to {dst} due to partition")
             return
             
         self.processes[dst].send_message(src, msg)
