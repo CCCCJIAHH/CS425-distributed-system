@@ -113,7 +113,7 @@ For client:
 
 ```java
 Get DEPOSIT:
-	if not BEGIN or ABORTED: // if not in transaction or should be aborted
+    if not BEGIN or ABORTED: // if not in transaction or should be aborted
         abortTransaction();
         System.out.println("ABORTED");
     else:
@@ -130,7 +130,7 @@ Get DEPOSIT:
     			msg = tryPut(server, account)
 
 Get WITHDRAW:
-	if not BEGIN or ABORTED:
+    if not BEGIN or ABORTED:
         abortTransaction();
         System.out.println("ABORTED");
     else:
@@ -150,7 +150,7 @@ Get WITHDRAW:
     			msg = tryPut(server, account)
 
 GET BALANCE:
-	if not BEGIN or ABORTED:
+    if not BEGIN or ABORTED:
         abortTransaction();
         System.out.println("ABORTED");
     else:
@@ -175,12 +175,12 @@ GET COMMIT:
 	if !canCommit:
 		abortTransaction();
 	else:
-    	commit();
-    	releaseAllLocks();
-    	localStorage.clear();
+    		commit();
+    		releaseAllLocks();
+    		localStorage.clear();
 
 GET ABORT:
-	releaseAllLocks();
+    releaseAllLocks();
     localStorage.clear();
 ```
 
