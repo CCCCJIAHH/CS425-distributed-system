@@ -184,7 +184,7 @@ GET ABORT:
     localStorage.clear();
 ```
 
-For Client:
+For Server:
 
 ```java
 tryPut:
